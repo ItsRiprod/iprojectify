@@ -1,16 +1,16 @@
 import { useLoaderData } from "remix";
 import { getProjects } from "~/projects";
-import invariant from "tiny-invariant";
 
 const parseBody = (str) => {
   return str.replace(/\n/g, "<br />");
 };
 
-export let loader = async ({ params, request }) => {
-  invariant(params.slug, "expected params.slug");
-
-  return getProjects({ request, slug: params.slug });
-};
+export async function loader({ request }) {
+  let slug = request.params.slug;
+  let projects = await getProjects();
+  let project = projects.find((project) => project.slug === slug);
+  return project;
+}
 
 export default function ProjectSlug() {
   let project = useLoaderData();
