@@ -10,13 +10,6 @@
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
-  "directories": {
-    "serve": "build"
-  },
-  "files": [
-    "build",
-    "public"
-  ],
   "dependencies": {
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",

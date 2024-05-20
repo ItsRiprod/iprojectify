@@ -1,0 +1,82 @@
+[debug] [2024-05-20T07:00:20.501Z] ----------------------------------------------------------------------
+[debug] [2024-05-20T07:00:20.504Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\legom\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-20T07:00:20.504Z] CLI Version:   13.8.0
+[debug] [2024-05-20T07:00:20.505Z] Platform:      win32
+[debug] [2024-05-20T07:00:20.505Z] Node Version:  v20.10.0
+[debug] [2024-05-20T07:00:20.505Z] Time:          Mon May 20 2024 03:00:20 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-20T07:00:20.505Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-20T07:00:20.577Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-20T07:00:20.577Z] > authorizing via signed-in user (riprodgames@gmail.com)
+[debug] [2024-05-20T07:00:20.577Z] [iam] checking project iprojectify for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-20T07:00:20.578Z] > refreshing access token with scopes: []
+[debug] [2024-05-20T07:00:20.580Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-05-20T07:00:20.580Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-20T07:00:20.929Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-05-20T07:00:20.929Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-20T07:00:20.934Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions [none]
+[debug] [2024-05-20T07:00:20.934Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions x-goog-quota-user=projects/iprojectify
+[debug] [2024-05-20T07:00:20.935Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-20T07:00:21.220Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions 200
+[debug] [2024-05-20T07:00:21.220Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-20T07:00:21.221Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify [none]
+[debug] [2024-05-20T07:00:21.455Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify 200
+[debug] [2024-05-20T07:00:21.455Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify {"projectId":"iprojectify","projectNumber":"398034192517","displayName":"iprojectify","name":"projects/iprojectify","resources":{"hostingSite":"iprojectify"},"state":"ACTIVE","etag":"1_45305867-d5c2-43c1-8d1b-f095762bf7a4"}
+[debug] [2024-05-20T07:00:26.322Z] defaultcredentials: writing to file C:\Users\legom\AppData\Roaming\firebase\riprodgames_gmail_com_application_default_credentials.json
+[debug] [2024-05-20T07:00:26.325Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites pageToken=&pageSize=10
+[debug] [2024-05-20T07:00:26.998Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites 200
+[debug] [2024-05-20T07:00:26.998Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites {"sites":[{"name":"projects/iprojectify/sites/iprojectify","defaultUrl":"https://iprojectify.web.app","appId":"1:398034192517:web:380917e8613ee5df4841ec","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-20T07:00:26.999Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config [none]
+[debug] [2024-05-20T07:00:27.406Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config 200
+[debug] [2024-05-20T07:00:27.406Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config {"projectId":"iprojectify","appId":"1:398034192517:web:380917e8613ee5df4841ec","storageBucket":"iprojectify.appspot.com","apiKey":"AIzaSyDxuQvIqePPhQwX2l802y823GL89lMvtJs","authDomain":"iprojectify.firebaseapp.com","messagingSenderId":"398034192517"}
+[info] 
+   Thank you for trying our early preview of Express.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/express
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2024-05-20T07:02:35.189Z] ----------------------------------------------------------------------
+[debug] [2024-05-20T07:02:35.193Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\legom\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-20T07:02:35.193Z] CLI Version:   13.8.0
+[debug] [2024-05-20T07:02:35.194Z] Platform:      win32
+[debug] [2024-05-20T07:02:35.194Z] Node Version:  v20.10.0
+[debug] [2024-05-20T07:02:35.194Z] Time:          Mon May 20 2024 03:02:35 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-05-20T07:02:35.194Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-20T07:02:35.283Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-20T07:02:35.284Z] > authorizing via signed-in user (riprodgames@gmail.com)
+[debug] [2024-05-20T07:02:35.284Z] [iam] checking project iprojectify for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-05-20T07:02:35.285Z] > refreshing access token with scopes: []
+[debug] [2024-05-20T07:02:35.287Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-05-20T07:02:35.287Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-20T07:02:35.784Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-05-20T07:02:35.785Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-20T07:02:35.793Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions [none]
+[debug] [2024-05-20T07:02:35.793Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions x-goog-quota-user=projects/iprojectify
+[debug] [2024-05-20T07:02:35.793Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-20T07:02:36.117Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions 200
+[debug] [2024-05-20T07:02:36.117Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/iprojectify:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-05-20T07:02:36.118Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify [none]
+[debug] [2024-05-20T07:02:36.379Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify 200
+[debug] [2024-05-20T07:02:36.380Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/iprojectify {"projectId":"iprojectify","projectNumber":"398034192517","displayName":"iprojectify","name":"projects/iprojectify","resources":{"hostingSite":"iprojectify"},"state":"ACTIVE","etag":"1_45305867-d5c2-43c1-8d1b-f095762bf7a4"}
+[debug] [2024-05-20T07:02:43.349Z] defaultcredentials: writing to file C:\Users\legom\AppData\Roaming\firebase\riprodgames_gmail_com_application_default_credentials.json
+[debug] [2024-05-20T07:02:43.352Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites pageToken=&pageSize=10
+[debug] [2024-05-20T07:02:43.919Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites 200
+[debug] [2024-05-20T07:02:43.919Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/iprojectify/sites {"sites":[{"name":"projects/iprojectify/sites/iprojectify","defaultUrl":"https://iprojectify.web.app","appId":"1:398034192517:web:380917e8613ee5df4841ec","type":"DEFAULT_SITE"}]}
+[debug] [2024-05-20T07:02:43.920Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config [none]
+[debug] [2024-05-20T07:02:44.342Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config 200
+[debug] [2024-05-20T07:02:44.342Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:398034192517:web:380917e8613ee5df4841ec/config {"projectId":"iprojectify","appId":"1:398034192517:web:380917e8613ee5df4841ec","storageBucket":"iprojectify.appspot.com","apiKey":"AIzaSyDxuQvIqePPhQwX2l802y823GL89lMvtJs","authDomain":"iprojectify.firebaseapp.com","messagingSenderId":"398034192517"}
+[info] 
+   Thank you for trying our early preview of Express.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/express
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+

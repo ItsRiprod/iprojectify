@@ -2,6 +2,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, si
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
 import { applicationDefault, initializeApp as initializeAdminApp, } from "firebase-admin/app";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

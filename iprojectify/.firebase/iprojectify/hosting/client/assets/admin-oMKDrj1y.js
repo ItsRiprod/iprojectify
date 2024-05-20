@@ -1,0 +1,1 @@
+import{j as i}from"./jsx-runtime-CZxWQka4.js";function t(){return i.jsx("div",{style:{fontFamily:"system-ui, sans-serif",lineHeight:"1.8"},children:i.jsx("h1",{children:"Admin Stuff"})})}export{t as default};

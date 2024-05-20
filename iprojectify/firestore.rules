@@ -1,0 +1,19 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+    match /projects/{projectId} {
+      allow read: if resource.data.ownerId == request.auth.uid ||
+                  resource.data.sharedWith.userId == request.auth.uid;
+      allow write: if resource.data.ownerId == request.auth.uid ||
+                   (resource.data.sharedWith.userId == request.auth.uid && resource.data.sharedWith.role == 'editor');
+    }
+    match /tasks/{taskId} {
+      allow read, write: if get(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.ownerId == request.auth.uid ||
+                        get(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.sharedWith.userId == request.auth.uid;
+    }
+  }
+}
