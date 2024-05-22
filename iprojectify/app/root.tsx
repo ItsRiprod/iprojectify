@@ -56,6 +56,7 @@ function Layout({ children }) {
       </div>
       <footer className="remix-app__footer">
         <div className="container remix-app__footer-content">
+          <p>Web Version: 00.00.1</p>
           <p>&copy; You!</p>
         </div>
       </footer>
@@ -66,7 +67,7 @@ function Layout({ children }) {
 
 export default function App() {
   return (
-    <Document>
+    <Document title="iProjectify">
       <Layout>
         <Outlet />
       </Layout>
@@ -83,6 +84,8 @@ function Document({ children, title }) {
         {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
       </head>
       <body>
         {children}

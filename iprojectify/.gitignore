@@ -1,6 +1,7 @@
 node_modules
 
 serviceAccountKey.json
+BADserviceAccountKey.json
 
 /.cache
 /build
