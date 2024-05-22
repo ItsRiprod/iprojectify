@@ -15,10 +15,12 @@ const firebaseConfig = {
     appId: process.env.FIREBASE_APP_ID,
 };
 
+const serviceAccount = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);
+
 if (!admin.apps.length) {
   initializeAdminApp({
-    credential: applicationDefault(),
-    databaseURL: "https://iprojectify-default-rtdb.firebaseio.com",
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://your-firebase-project.firebaseio.com'
   });
 }
 
