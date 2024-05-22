@@ -32,7 +32,7 @@ export default function Index() {
   return (
     <>
       <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-        <h1>Welcome to Remix</h1>
+        <h1>Welcome to iProjectify!</h1>
         <p>{user}</p>
         <img src="/logo.svg" alt="Logo"/>
       </div>

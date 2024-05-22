@@ -9,17 +9,20 @@ import {
   useRouteError,
 } from "@remix-run/react";
 
+import stylesheet from "~/tailwind.css?url";
 import globalStylesUrl from "~/styles/global.css?url";
 import darkStylesUrl from "~/styles/dark.css?url";
+import NavBar from "./components/nav"
 
 export let links = () => {
   return [
+    { rel: "stylesheet", href: stylesheet },
     { rel: "stylesheet", href: globalStylesUrl },
     {
       rel: "stylesheet",
       href: darkStylesUrl,
       media: "(prefers-color-scheme: dark)",
-    }
+    },
   ];
 };
 
@@ -27,29 +30,7 @@ function Layout({ children }) {
   return (
     <div className="remix-app">
       <header className="remix-app__header">
-        <div className="container remix-app__header-content">
-          <Link to="/" title="Remix" className="remix-app__header-home-link">
-
-          </Link>
-          <nav aria-label="Main navigation" className="remix-app__header-nav">
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/dashboard">Dashboard</Link>
-              </li>
-              <li>
-                <Link to="/admin">Admin</Link>
-              </li>
-              <li>
-                <Link to="/login">
-                  login
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+            <NavBar />
       </header>
       <div className="remix-app__main">
         <div className="container remix-app__main-content">{children}</div>
