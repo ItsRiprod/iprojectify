@@ -1,42 +1,35 @@
-import { useLoaderData, redirect, Form } from "@remix-run/react";
-import type { MetaFunction } from "@remix-run/node";
-import { getSession, commitSession, destroySession } from "../sessions";
+import type { MetaFunction } from "@remix-run/cloudflare";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    {
+      name: "description",
+      content: "Welcome to Remix! Using Vite and Cloudflare!",
+    },
   ];
 };
 
-export async function loader({ request }) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  let user = "Not Logged In";
-  if (session.has("userId")) {
-    // Redirect to the home page if they are already signed in.
-    console.log("Already Logged In!")
-    user = session.get("userId");
-    
-  }
-
-
-  return { user }
-}
-
 export default function Index() {
-  const { user } = useLoaderData();
-
-
   return (
-    <>
-      <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-        <h1>Welcome to Remix</h1>
-        <p>{user}</p>
-        <a href="/dashboard">a</a>
-
-      </div>
-    </>
+    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+      <h1>Welcome to Remix (with Vite and Cloudflare)</h1>
+      <ul>
+        <li>
+          <a
+            target="_blank"
+            href="https://developers.cloudflare.com/pages/framework-guides/deploy-a-remix-site/"
+            rel="noreferrer"
+          >
+            Cloudflare Pages Docs - Remix guide
+          </a>
+        </li>
+        <li>
+          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
+            Remix Docs
+          </a>
+        </li>
+      </ul>
+    </div>
   );
 }
