@@ -9,26 +9,26 @@ export const loader = async ({ request }) => {
     if (!session.has("userId")) {
       // Redirect to the home page if they are already signed in.
       console.log("Not logged in!");
-      return redirect("/login");
+      //return redirect("/login");
     }
 
     // Fetch the user's projects from the database
     let projects;
     try {
-        const { getProjects } = await import("../utils/db.server.firebase.js");
+        const { getProjects } = await import("../utils/db.firebase.server.js");
         
         projects = await getProjects(session.get("userId"));
 
 
     } catch (exception) {
-      console.error(exception);
+      // Do nothing
+      //console.error(exception);
     }
-    console.log("Idk whats happening here");
     return { projects };
 };
 
 export async function action({ request }) {
-    const { createProject } = await import("../utils/db.server.firebase.js");
+    const { createProject } = await import("../utils/db.firebase.server.js");
     const session = await getSession(
         request.headers.get("Cookie")
       );
@@ -44,17 +44,18 @@ export default function Dashboard() {
   const { projects } = useLoaderData();
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="py-10">
+      <h1 className="text-amber-500 text-5xl mb-2">Dashboard</h1>
       <Form method="post">
-        <button type="submit">Add Project</button>
+        <button className="bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded" type="submit">Add Project</button>
       </Form>
       <ul>
-        {projects != null ? Object.keys(projects).map((index, project) => (
-          <li key={index}>
-            <h2>{index}</h2>
-            <p>{project}</p>
-            {/* Add more project details as needed */}
+        {projects != null ? Object.keys(projects).map((prod, index) => (
+          <li key={prod} className="text-black container my-4 bg-amber-100 dark:bg-amber-600 max-w-xl rounded-lg p-5">
+            <h2>ID: {prod}</h2>
+            <hr />
+            <p className="text-slate-700">Owner Id: {projects[prod].ownerId}</p>
+            <p className="text-slate-700">Product Num: {index}</p>
           </li>
         )) : <>Nothing In Your Dashboard</>}
       </ul>

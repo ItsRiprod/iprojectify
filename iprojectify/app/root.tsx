@@ -6,13 +6,15 @@ import {
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
-  useRouteError,
+  useRouteError
 } from "@remix-run/react";
 
-import stylesheet from "~/tailwind.css?url";
-import globalStylesUrl from "~/styles/global.css?url";
-import darkStylesUrl from "~/styles/dark.css?url";
-import NavBar from "./components/nav"
+import globalStylesUrl from "./styles/global.css?url";
+import darkStylesUrl from "./styles/dark.css?url";
+import SideNavBar from "./components/sideNav"
+import TopNavBar from "./components/topNav"
+import stylesheet from "./tailwind.css?url";
+import React from "react";
 
 export let links = () => {
   return [
@@ -27,17 +29,41 @@ export let links = () => {
 };
 
 function Layout({ children }) {
+  const [darkMode, setDarkMode] = React.useState(true);
+
+  React.useEffect(() => {
+    const isDarkMode =
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    setDarkMode(isDarkMode);
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    document.documentElement.classList.toggle("dark", newDarkMode);
+    localStorage.theme = newDarkMode ? "dark" : "light";
+  };
+
+
   return (
-    <div className="remix-app">
-      <header className="remix-app__header">
-            <NavBar />
-      </header>
-      <div className="remix-app__main">
-        <div className="container remix-app__main-content">{children}</div>
-      </div>
-      <footer className="remix-app__footer">
-        <div className="container remix-app__footer-content">
-          <p>Web Version: 00.00.1</p>
+    <div className={darkMode ? "dark" : "light"}>
+      <TopNavBar />
+      <section className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+        <SideNavBar />
+        <div className="lg:pl-[19.5rem]">
+          {children}
+        </div>
+      </section>
+      <footer className="footer">
+        <div className="max-w-screen flex justify-center h-10 p-2 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900">
+          <button className="bg-slate-200 dark:bg-slate-800 rounded px-1 mr-3 hover:bg-amber-600 transition-color duration-500" onClick={toggleDarkMode}>
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+          <p>| Web Version: 00.00.1</p>
           <p>&copy; You!</p>
         </div>
       </footer>
@@ -50,6 +76,7 @@ export default function App() {
   return (
     <Document title="iProjectify">
       <Layout>
+      
         <Outlet />
       </Layout>
     </Document>
@@ -68,7 +95,7 @@ function Document({ children, title }) {
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
       </head>
-      <body>
+      <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-950">
         {children}
         <ScrollRestoration />
         <Scripts />

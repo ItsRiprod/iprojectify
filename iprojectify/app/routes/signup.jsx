@@ -29,7 +29,7 @@ export async function action({ request }) {
 
   if (_action === "email") {
     try {
-      const { signUp } = await import("../utils/db.server.firebase.js");
+      const { signUp } = await import("../utils/db.firebase.server.js");
       
       const email = formData.get("email");
       const password = formData.get("password");
@@ -50,19 +50,16 @@ export async function action({ request }) {
     }
   }
 
-  if (_action === "google") {
-    try {
-      const { signInWithGoogle } = await import("../utils/db.server.firebase.js");
-      const { createUserSession } = await import("../utils/session.server.js");
-
-      const { user, userId } = await signInWithGoogle();
-      const idToken = await user.getIdToken();
-      
-      return createUserSession(idToken, userId, "/");
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-      return json({ error: error.message }, { status: 400 });
-    }
+  if (_action === "out") {
+    console.log("Logging Out")
+    const session = await getSession(
+      request.headers.get("Cookie")
+    );
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": await destroySession(session),
+      },
+    });
   }
 }
 
@@ -71,39 +68,46 @@ export default function SignUp() {
   
 
   return (
-    <div className="signup">
-      <h1>Sign Up Page</h1>
+    <div className="container rounded-lg m-auto my-12 max-w-sm p-5 bg-slate-100 dark:bg-slate-800">
+      <h1 className="text-xl pb-5">Create Account</h1>
 
       <Form method="post">
-        <p>
-          <label>
-            Email
-            <input type="email" name="email" required />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password
-            <input type="password" name="password" required />
-          </label>
-        </p>
+        <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
+            <label className="flex gap-5 place-content-between" >
+              <p>Email
+                </p> 
+              <input type="email" name="email" />
+            </label>
+          </div>
+
+        <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
+            <label className="flex gap-5 place-content-between">
+              <p>
+              Password 
+              </p>
+              <input type="password" name="password" />
+            </label>
+
+          </div>
+      
         {actionData?.error && (
           <p style={{ color: "red" }}>{actionData.error}</p>
         )}
-        <button 
+        <button className="float-right transition-colors duration-300 bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded"
           type="submit"
           name="_action"
           value="email"
         >Sign Up</button>
-      </Form>
-      <Form method="post">
-        <button 
+        <button className="hover:text-amber-400 transition-colors duration-300"
+          
           type="submit"
           name="_action"
-          value="google"
-        ><s>Sign Up with Google</s></button>
+          value="out"
+        >Logout</button>
+        
       </Form>
-      <Link to="/login">Go to Login</Link>
+      
+      <Link className="hover:text-amber-400 transition-colors duration-300" to="/login">Go to Login</Link>
     </div>
   );
 }

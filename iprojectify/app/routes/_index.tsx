@@ -31,10 +31,9 @@ export default function Index() {
 
   return (
     <>
-      <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-        <h1>Welcome to iProjectify!</h1>
-        <p>{user}</p>
-        <img src="/logo.svg" alt="Logo"/>
+      <div className="py-10 h-screen">
+        <h1 className="text-amber-500 text-5xl">Welcome to iProjectify!</h1>
+        <p>User Id: {user}</p>
       </div>
     </>
   );

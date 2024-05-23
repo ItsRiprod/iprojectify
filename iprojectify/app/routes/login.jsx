@@ -33,7 +33,7 @@ export async function action({ request }) {
 
     try {
       // Dynamic import for server-side code
-      const { signIn } = await import("../utils/db.server.firebase.js");
+      const { signIn } = await import("../utils/db.firebase.server.js");
 
       const { user, userId } = await signIn(email, password);
 
@@ -70,40 +70,45 @@ export default function Login() {
   const actionData = useActionData();
 
   return (
-    <div className="login">
-      <h1>Login Page</h1>
+    <div className="container rounded-lg m-auto my-12 max-w-sm p-5 bg-slate-100 dark:bg-slate-800">
+      <h1 className="text-xl pb-5">Login Page</h1>
 
       <Form method="post">
-        <p>
-          <label>
-            Email
-            <input type="email" name="email" />
-          </label>
-        </p>
-        <p>
-          <label>
-            Password
-            <input type="password" name="password" />
-          </label>
-        </p>
+          <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
+            <label className="flex gap-5 place-content-between" >
+              <p>Email
+                </p> 
+              <input type="email" name="email" />
+            </label>
+          </div>
+
+          <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
+            <label className="flex gap-5 place-content-between">
+              <p>
+              Password 
+              </p>
+              <input type="password" name="password" />
+            </label>
+
+          </div>
+      
         {actionData?.error && (
           <p style={{ color: "red" }}>{actionData.error}</p>
         )}
-        <button 
+        <button className="float-end bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded"
           type="submit"
           name="_action"
           value="in"
         >Login</button>
-      
-      </Form>
-      <Form method="post">
-        <button 
+        <button className="hover:text-amber-400 transition-colors duration-300"
+          
           type="submit"
           name="_action"
           value="out"
         >Logout</button>
+      
       </Form>
-      <a href="/signup">Create Account</a>
+      <Link className="hover:text-amber-400 transition-colors duration-300" to="/signup">Create Account</Link>
     </div>
   );
 }
