@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider, signOut, } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider, signOut, deleteUser } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
-import { applicationDefault, initializeApp as initializeAdminApp, } from "firebase-admin/app";
+import { initializeApp as initializeAdminApp, } from "firebase-admin/app";
+import { deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, persistentLocalCache, doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -20,18 +21,20 @@ const serviceAccount = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);
 if (!admin.apps.length) {
   initializeAdminApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://your-firebase-project.firebaseio.com'
+    databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}.firebaseio.com`
   });
 }
-
-const db = admin.firestore();
-const adminAuth = admin.auth();
-const provider = new GoogleAuthProvider();
-
 let Firebase;
 if (!Firebase?.apps?.length) {
   Firebase = initializeApp(firebaseConfig);
 }
+
+const db = getFirestore();
+
+const adminAuth = admin.auth();
+const provider = new GoogleAuthProvider();
+
+
 
 const signIn = async (email, password) => {
   const auth = getAuth();
@@ -47,9 +50,9 @@ const signUp = async (email, password) => {
     const user = userCredential.user;
 
     // Create a user document in Firestore
-    await db.collection('users').doc(user.uid).set({
+    await setDoc(doc(db, 'users', user.uid), {
       email: user.email,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
     });
 
     return { user, userId: user.uid };
@@ -69,19 +72,18 @@ async function getSessionToken(idToken) {
 }
 
 async function signOutFirebase() {
-  await signOut(getAuth());
+  const auth = getAuth()
+  await signOut(auth);
 }
 
 const signInWithGoogle = async (result) => {
   try {
-    //const auth = getAuth(Firebase);
-    //const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
     // Create or update a user document in Firestore
-    await db.collection('users').doc(user.uid).set({
+    await setDoc(doc(db, 'users', user.uid), {
       email: user.email,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
     }, { merge: true }); // Merge to avoid overwriting existing data
 
     return { user, userId: user.uid };
@@ -90,8 +92,19 @@ const signInWithGoogle = async (result) => {
     throw error;
   }
 };
+async function deleteAccount() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  
+  deleteUser(user).then(() => {
+    // User deleted.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
 
-export { db, signUp, getSessionToken, signOutFirebase, signIn, provider, adminAuth, signInWithGoogle };
+}
+export { db, signUp, deleteAccount, getSessionToken, signOutFirebase, signIn, provider, adminAuth, signInWithGoogle };
 
 /**
  * Database Stuff
@@ -99,63 +112,79 @@ export { db, signUp, getSessionToken, signOutFirebase, signIn, provider, adminAu
 
 export async function createProject(userId, projectData) {
   try {
-    const res = await db.collection('projects').add(projectData);
-    //await db.collection('users').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner"})
-    return { success: true };
+    console.log("adding product");
+    
+    const docRef = await addDoc(collection(db, 'projects'), projectData);
+    //await db.collection('users/').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner", projectName: projectData.name})
+    return { success: true, projId: docRef.id };
   } catch (error) {
     console.error('Error creating project:', error);
-    throw new Error('Unable to create project', error);
+    throw error;
   }
 }
 
-export async function getProjects(userId) {
+export async function getDBProjects(userId) {
   try {
-    const projectsRef = db.collection('projects');
-    const snapshot = await projectsRef.where("ownerId", "==", userId).get()
 
+    
+    const q = query(collection(db, 'projects'), where('ownerId', '==', userId));
+    const snapshot = await getDocs(q);
+    
     if (snapshot.empty) {
-      throw new Error('Project not found');
+      throw new Error('Projects not found');
     }
+    
     const projects = {};
 
-    snapshot.forEach(doc => { projects[doc.id] = doc.data() });
-    //console.log(projects);
+    snapshot.forEach(doc => {
+      projects[doc.id] = doc.data()
+    });
+    console.log("Getting Projects");
     return projects;
   } catch (error) {
-    console.error('Error getting project:', error);
-    throw new Error('Unable to get project');
+    
+    console.error('Error getting projects:', error);
+    throw error;
   }
 }
 
-export async function getProject(projectId) {
+export async function getDBProject(projectId, userId) {
   try {
-    const projectDoc = await db.collection('projects').doc(projectId).get();
+    const projectRef = doc(db, 'projects', projectId);
+    const projectDoc = await getDoc(projectRef);
+    
     if (!projectDoc.exists) {
       throw new Error('Project not found');
     }
-    return projectDoc.data();
+    const projectData = projectDoc.data();
+    if (projectData.ownerId !== userId && !projectData.sharedWith.includes(userId)) {
+      throw new Error('Not authorized to access project');
+    }
+    console.log("Getting Project");
+    return projectData;
   } catch (error) {
+    
     console.error('Error getting project:', error);
-    throw new Error('Unable to get project');
+    throw error;
   }
 }
 
 export async function updateProject(projectId, updatedData) {
   try {
-    await db.collection('projects').doc(projectId).update(updatedData);
+    await updateDoc(doc(db, 'projects', projectId), updatedData);
     return { success: true };
   } catch (error) {
     console.error('Error updating project:', error);
-    throw new Error('Unable to update project');
+    throw error;
   }
 }
 
 export async function deleteProject(projectId) {
   try {
-    await db.collection('projects').doc(projectId).delete();
+    await deleteDoc(doc(db, 'projects', projectId));
     return { success: true };
   } catch (error) {
     console.error('Error deleting project:', error);
-    throw new Error('Unable to delete project');
+    throw error;
   }
 }

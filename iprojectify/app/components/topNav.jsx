@@ -17,10 +17,10 @@ export default function main() {
                 >Home</NavLink>
             </li>
             <li>
-                <NavLink to="/dashboard"className={({ isActive, isPending }) =>
+                <NavLink to="/portal"className={({ isActive, isPending }) =>
                           isPending ? "text-slate-700 dark:text-slate-200" : isActive ? "text-amber-500 dark:text-amber-150" : ""
               }
-              >Dashboard</NavLink>
+              >Portal</NavLink>
             </li>
             <li>
                 <NavLink to="/admin"className={({ isActive, isPending }) =>

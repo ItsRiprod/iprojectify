@@ -11,7 +11,6 @@ import {
 
 import globalStylesUrl from "./styles/global.css?url";
 import darkStylesUrl from "./styles/dark.css?url";
-import SideNavBar from "./components/sideNav"
 import TopNavBar from "./components/topNav"
 import stylesheet from "./tailwind.css?url";
 import React from "react";
@@ -53,10 +52,7 @@ function Layout({ children }) {
     <div className={darkMode ? "dark" : "light"}>
       <TopNavBar />
       <section className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
-        <SideNavBar />
-        <div className="lg:pl-[19.5rem]">
           {children}
-        </div>
       </section>
       <footer className="footer">
         <div className="max-w-screen flex justify-center h-10 p-2 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900">
