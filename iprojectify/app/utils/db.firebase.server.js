@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, Go
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
 import { initializeApp as initializeAdminApp, } from "firebase-admin/app";
-import { deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { arrayUnion, arrayRemove, deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -93,6 +93,7 @@ const signInWithGoogle = async (result) => {
     throw error;
   }
 };
+
 async function deleteAccount() {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -120,6 +121,34 @@ export async function createProject(userId, projectData) {
     return { success: true, projId: docRef.id };
   } catch (error) {
     console.error('Error creating project:', error);
+    throw error;
+  }
+}
+export async function createTask(userId, projectId, taskData) {
+  try {
+    console.log("adding task");
+    const projectRef = doc(db, 'projects', projectId);
+    await updateDoc(projectRef, {
+      tasks: arrayUnion(taskData) 
+    });
+    //await db.collection('users/').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner", projectName: projectData.name})
+    return { success: true };
+  } catch (error) {
+    console.error('Error creating task:', error);
+    throw error;
+  }
+}
+export async function deleteTask(userId, projectId, taskData) {
+  try {
+    console.log("deleting task");
+    const projectRef = doc(db, 'projects', projectId);
+    await updateDoc(projectRef, {
+      tasks: arrayRemove({name: taskData}) 
+    });
+    //await db.collection('users/').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner", projectName: projectData.name})
+    return { success: true };
+  } catch (error) {
+    console.error('Error removing task:', error);
     throw error;
   }
 }
@@ -166,17 +195,18 @@ export async function getDBProject(projectId, userId) {
   } catch (error) {
     
     console.error('Error getting project:', error);
-    throw error;
+    throw new Error('Error getting project', error);
   }
 }
 
 export async function updateProject(projectId, updatedData) {
   try {
-    await updateDoc(doc(db, 'projects', projectId), updatedData);
+    const projectRef = doc(db, 'projects', projectId);
+    await updateDoc(projectRef, updatedData);
     return { success: true };
   } catch (error) {
-    console.error('Error updating project:', error);
-    throw error;
+    console.error('Error updating project: ', error);
+    return { success: false };
   }
 }
 

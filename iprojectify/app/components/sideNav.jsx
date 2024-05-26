@@ -12,11 +12,11 @@ export default function Main() {
         <nav aria-label="Side navigation" className="">
           <ul>
             <li>
-              <NavLink to="/portal"
+              <NavLink to="/portal" end
               className={({ isActive, isPending }) =>
                 `${isPending ? "bg-red-50" : ""}
-                ${isActive ? "active" : ""}
-                otherNames`
+                ${isActive ? "bg-amber-500 hover:bg-amber-400 dark:hover:bg-amber-400 text-slate-600" : ""}
+                p-2 pe-2 w-full lg:rounded-e-2xl border-l-2 border-l-slate-700 hover:border-l-amber-400 relative flex items-center justify-between ps-5 font-bold hover:bg-slate-200 dark:hover:bg-slate-800`
               }
             >Dashboard</NavLink>
             </li>
@@ -25,8 +25,8 @@ export default function Main() {
                 <NavLink to={key}
                 className={({ isActive, isPending }) =>
                   `${isPending ? "bg-red-50" : ""}
-                  ${isActive ? "active" : ""}
-                  otherNames`
+                  ${isActive ? "bg-amber-500 hover:bg-amber-400 dark:hover:bg-amber-400 text-slate-600" : ""}
+                  p-2 pe-2 w-full lg:rounded-e-2xl border-l-2 border-l-slate-700 hover:border-l-amber-400 relative flex items-center justify-between ps-5 font-bold hover:bg-slate-200 dark:hover:bg-slate-800`
                 }
               >{value.name != null ? value.name : key}</NavLink>
               </li>

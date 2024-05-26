@@ -8,6 +8,7 @@ import {
   isRouteErrorResponse,
   useRouteError
 } from "@remix-run/react";
+import { getSession, } from "./sessions.ts";
 
 import globalStylesUrl from "./styles/global.css?url";
 import darkStylesUrl from "./styles/dark.css?url";
@@ -28,37 +29,18 @@ export let links = () => {
 };
 
 function Layout({ children }) {
-  const [darkMode, setDarkMode] = React.useState(true);
-
-  React.useEffect(() => {
-    const isDarkMode =
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    setDarkMode(isDarkMode);
-    document.documentElement.classList.toggle("dark", isDarkMode);
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    document.documentElement.classList.toggle("dark", newDarkMode);
-    localStorage.theme = newDarkMode ? "dark" : "light";
-  };
+ 
 
 
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <TopNavBar />
+    <div>
+      <TopNavBar/>
       <section className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
           {children}
       </section>
       <footer className="footer flex justify-center h-10 p-2 z-50 bottom-0 w-full text-center text-sm text-slate-500 dark:text-slate-400 bg-slate-200/75 dark:bg-slate-900/75">
-          <button className="bg-slate-200 dark:bg-slate-800 rounded px-1 mr-3 hover:bg-amber-600 transition-color duration-500" onClick={toggleDarkMode}>
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
-          <p>| Web Version: 00.00.1</p>
+          
+          <p>Web Version: 00.00.1</p>
           <p>&copy; You!</p>
       </footer>
     </div>
@@ -123,3 +105,15 @@ export function ErrorBoundary() {
     return <h1>Unknown Error</h1>;
   }
 }
+
+export const loader = async ({ request }) => {
+  let loggedIn = false;
+  const session = await getSession(
+    request.headers.get("Cookie")
+  );
+  if (session.has("userId")) {
+    loggedIn = true;
+  }
+  return { loggedIn };
+};
+

@@ -44,7 +44,8 @@ export async function action({ request }) {
 
 export default function Dashboard() {
     const [showCreateProject, setShowCreateProject] = useState(false);
-
+    const [count, setCount] = useState(0);
+    const [show, setShow] = useState(false);
     const handleNewProject = () => {
         setShowCreateProject(true);
       };
@@ -67,8 +68,50 @@ export default function Dashboard() {
                   Delete Account
                 </button>
             </Form>*/}
-            <div className="mb-96">Scroll Test</div>
-            <div className="mb-96">Scroll Test</div>
+            <h1 className="my-2 mt-10 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Num Tasks: ?</h1>
+            <div className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5 flex gap-2">
+              <button onClick={() => setCount(old => old + 1)} className="bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                Useless Button
+              </button>
+              <button onClick={() => setCount(old => old - 1)} className=" bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                Useless Button 2
+              </button>
+            </div>
+            <h1 className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Num Projects: ?</h1>
+            <h1 className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Calendar: ?</h1>
+            <div className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5 flex gap-2">
+              <button onClick={() => setCount(0)} className="bg-red-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                DONOTCLICK
+              </button>
+              <button onClick={() => setCount(old => old*2)} className=" bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                SPEED
+              </button>
+            </div>
+            <h1 className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Total Somethings: ?</h1>
+            <h1 className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Important Placeholder Data: ?</h1>
+            <div className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5 flex gap-2">
+              <button onClick={() => setCount(old => old/2)} className="bg-orange-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                SLOW
+              </button>
+              <button onClick={() => setCount(old => old*2)} className=" bg-sky-500 transition-colors duration-300 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded">
+                SPEED
+              </button>
+            </div>
+            <h1 className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5">Random Number: {count}</h1>
+            <div className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5 flex gap-2">
+              <button onClick={() => setShow(true)} className="bg-orange-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                SHOW
+              </button>
+           
+            </div>
+            {show && (<div className="my-2 w-full bg-slate-200 dark:bg-slate-500 rounded p-5 flex gap-2">
+              <button onClick={() => setCount(old => Math.round(old*10*Math.random()))} className="bg-orange-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded">
+                RANDOM
+              </button>
+              <button onClick={() => {setShow(false); setCount(0);}} style={ { transform: "scale(" + (Math.min(0.01*count, 5)) + ")"} } className=" bg-slate-700 transition-colors duration-300 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded">
+                GO AWAY
+              </button>
+            </div>)}
         </div>
     )
 }

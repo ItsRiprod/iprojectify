@@ -7,28 +7,44 @@ export const loader = async ({ request }) => {
     const session = await getSession(
       request.headers.get("Cookie")
     );
-
+    const { getDBProjects } = await import("../utils/db.firebase.server.js");
     if (!session.has("userId")) {
       // Redirect to the home page if they are already signed in.
-      console.log("Not logged in!");
+      console.error("Not logged in!");
       return redirect("/login");
     }
 
     // Fetch the user's projects from the database
     let projects;
     try {
-        const { getDBProjects } = await import("../utils/db.firebase.server.js");
-        
+ 
         projects = await getDBProjects(session.get("userId"));
-
-
+        
     } catch (exception) {
       // Do nothing
-      //console.error(exception);
+      console.error("Error in loader: ", exception);
+      return new Response("Unable to get projects!" + exception , { status: 500 });
     }
     return { projects };
 };
 
+
+
+
+export default function Portal() {
+  const { projects } = useLoaderData();
+
+  return (
+    <div className="py-10">
+      <SideNavBar />
+      <div className="lg:pl-[19.5rem]">
+
+        
+        <Outlet context={ projects } />
+      </div>
+    </div>
+  );
+}
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -45,19 +61,4 @@ export function ErrorBoundary() {
       </div>
     )
   }
-}
-
-export default function Portal() {
-  const { projects } = useLoaderData();
-
-  return (
-    <div className="py-10">
-      <SideNavBar />
-      <div className="lg:pl-[19.5rem]">
-
-        
-        <Outlet context={ projects } />
-      </div>
-    </div>
-  );
 }
