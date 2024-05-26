@@ -1,8 +1,7 @@
 
-import { useLoaderData, Form, useOutletContext, isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import { useLoaderData, Form, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { getSession } from "../sessions";
-import { json, redirect  } from "@remix-run/node";
-import { useEffect, useState } from "react";
+import { redirect  } from "@remix-run/node";
 import { getDBProject, deleteProject } from "../utils/db.firebase.server.js";
 
 export async function loader({ params, request }) {
@@ -32,7 +31,7 @@ export async function loader({ params, request }) {
 
 export async function action({ params, request }) {
     let formData = await request.formData();
-    let { _action, ...values } = Object.fromEntries(formData);
+    let { _action } = Object.fromEntries(formData);
 
     if (_action === "_delete") {
         try {

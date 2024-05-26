@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider, signOut, deleteUser } from "firebase/auth";
+/* eslint-disable no-undef */
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signOut, deleteUser } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import admin from "firebase-admin";
 import { initializeApp as initializeAdminApp, } from "firebase-admin/app";
-import { deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, persistentLocalCache, doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -99,8 +100,8 @@ async function deleteAccount() {
   deleteUser(user).then(() => {
     // User deleted.
   }).catch((error) => {
-    // An error ocurred
-    // ...
+    console.error("Error deleting user: ", error);
+    throw error;
   });
 
 }

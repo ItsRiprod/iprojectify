@@ -54,14 +54,12 @@ function Layout({ children }) {
       <section className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
           {children}
       </section>
-      <footer className="footer">
-        <div className="max-w-screen flex justify-center h-10 p-2 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-900">
+      <footer className="footer flex justify-center h-10 p-2 z-50 bottom-0 w-full text-center text-sm text-slate-500 dark:text-slate-400 bg-slate-200/75 dark:bg-slate-900/75">
           <button className="bg-slate-200 dark:bg-slate-800 rounded px-1 mr-3 hover:bg-amber-600 transition-color duration-500" onClick={toggleDarkMode}>
             {darkMode ? "Light Mode" : "Dark Mode"}
           </button>
           <p>| Web Version: 00.00.1</p>
           <p>&copy; You!</p>
-        </div>
       </footer>
     </div>
   );

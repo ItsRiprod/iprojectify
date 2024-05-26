@@ -67,7 +67,8 @@ export default function Dashboard() {
                   Delete Account
                 </button>
             </Form>*/}
-            <div className="mb-96">Problematic</div>
+            <div className="mb-96">Scroll Test</div>
+            <div className="mb-96">Scroll Test</div>
         </div>
     )
 }

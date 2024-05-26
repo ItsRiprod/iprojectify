@@ -24,7 +24,7 @@ export async function loader({ request }) {
 
 export async function action({ request }) {
   const formData = await request.formData();
-  let { _action, ...values } = Object.fromEntries(formData);
+  let { _action } = Object.fromEntries(formData);
   console.log(_action);
 
   if (_action === "email") {
