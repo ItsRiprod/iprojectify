@@ -3,7 +3,6 @@ import {
 } from "@remix-run/react";
 import { getSession, } from "../sessions.ts";
 import NightModeIcon from "./NightModeIcon";
-import { useState } from "react";
 
 export const loader = async ({ request }) => {
   let loggedIn = false;
@@ -29,12 +28,12 @@ export default function Main() {
               <NavLink to="/"
                 className={({ isActive, isPending }) =>
                   `${isPending ? "text-slate-700 dark:text-slate-200" : ""}
-                ${isActive ? "text-amber-500 dark:text-amber-150" : ""}
+                ${isActive ? "text-cyan-500 dark:text-cyan-150" : ""}
                   mr-3 flex-none w-[2.0625rem] overflow-hidden md:w-auto`
                 }
                 >
                 <span className="sr-only">iProjectify home page</span>
-                <p className="first-letter:text-slate-400 hover:text-amber-500 font-serif">iProjectify</p>
+                <p className="first-letter:text-slate-400 hover:text-cyan-500 font-serif">iProjectify</p>
               
               </NavLink>
               <nav className="text-sm font-semibold text-slate-700 dark:text-slate-200 ml-auto">
@@ -43,8 +42,8 @@ export default function Main() {
                       <NavLink to="/portal"
                         className={({ isActive, isPending }) =>
                           `${isPending ? "text-slate-700 dark:text-slate-200" : ""}
-                        ${isActive ? "text-amber-500 dark:text-amber-150" : ""}
-                        hover:text-amber-600 dark:hover:text-amber-300`
+                        ${isActive ? "text-cyan-500 dark:text-cyan-150" : ""}
+                        hover:text-cyan-600 dark:hover:text-cyan-300`
                       }
                       >Portal</NavLink>
                   </li>
@@ -52,8 +51,8 @@ export default function Main() {
                       <NavLink to="/admin"
                         className={({ isActive, isPending }) =>
                           `${isPending ? "text-slate-700 dark:text-slate-200" : ""}
-                          ${isActive ? "text-amber-500 dark:text-amber-150" : ""}
-                          hover:text-amber-600 dark:hover:text-amber-300`
+                          ${isActive ? "text-cyan-500 dark:text-cyan-150" : ""}
+                          hover:text-cyan-600 dark:hover:text-cyan-300`
                         }
                         >Admin</NavLink>
                   </li>
@@ -61,8 +60,8 @@ export default function Main() {
                       <NavLink to={`/${loggedIn ? "logout" : "login"}`}
                         className={({ isActive, isPending }) =>
                           `${isPending ? "text-slate-700 dark:text-slate-200" : ""}
-                          ${isActive ? "text-amber-500 dark:text-amber-150" : ""}
-                          hover:text-amber-600 dark:hover:text-amber-300`
+                          ${isActive ? "text-cyan-500 dark:text-cyan-150" : ""}
+                          hover:text-cyan-600 dark:hover:text-cyan-300`
                         }
                     >{loggedIn ? "Logout" : "Login"}</NavLink>
                   </li>

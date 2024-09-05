@@ -1,66 +1,8 @@
 
 export default function Admin() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      <h1 className="bg-amber-200 p-5 m-5 max-w-40 rounded">Admin Stuff</h1>
-      
+    <div className="font-mono w-full py-16 flex items-center justify-center">
+      <h1 className="p-5 m-5 max-w-40 rounded">Nothing to see here...</h1>
     </div>
   );
 }

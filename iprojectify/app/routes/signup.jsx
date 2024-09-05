@@ -93,12 +93,12 @@ export default function SignUp() {
         {actionData?.error && (
           <p style={{ color: "red" }}>{actionData.error}</p>
         )}
-        <button className="float-right transition-colors duration-300 bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded"
+        <button className="float-right transition-colors duration-300 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
           type="submit"
           name="_action"
           value="email"
         >Sign Up</button>
-        <button className="hover:text-amber-400 transition-colors duration-300"
+        <button className="hover:text-cyan-400 transition-colors duration-300"
           
           type="submit"
           name="_action"

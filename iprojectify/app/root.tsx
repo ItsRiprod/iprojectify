@@ -1,6 +1,5 @@
 import {
   Links,
-  Link,
   Meta,
   Outlet,
   Scripts,
@@ -8,7 +7,7 @@ import {
   isRouteErrorResponse,
   useRouteError
 } from "@remix-run/react";
-import { getSession, } from "./sessions.ts";
+import { getSession, } from "./sessions";
 
 import globalStylesUrl from "./styles/global.css?url";
 import darkStylesUrl from "./styles/dark.css?url";
@@ -33,15 +32,15 @@ function Layout({ children }) {
 
 
   return (
-    <div>
+    <div className="max-h-screen h-screen">
       <TopNavBar/>
-      <section className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+      <section className="max-w-8xl mx-auto">
           {children}
       </section>
-      <footer className="footer flex justify-center h-10 p-2 z-50 bottom-0 w-full text-center text-sm text-slate-500 dark:text-slate-400 bg-slate-200/75 dark:bg-slate-900/75">
+      <footer className="flex justify-center h-10 p-2 z-50 bottom-0 w-full text-center text-sm text-slate-500 dark:text-slate-400 bg-slate-200/75 dark:bg-slate-900/75">
           
-          <p>Web Version: 00.00.1</p>
-          <p>&copy; You!</p>
+          <p>Web Version: 0.5.0</p>
+          <p>&copy; Riprod!</p>
       </footer>
     </div>
   );
@@ -71,7 +70,7 @@ function Document({ children, title }) {
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/logo.svg" type="image/svg+xml" />
       </head>
-      <body className="antialiased text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-950">
+      <body className="antialiased text-slate-600 dark:text-slate-200 bg-white dark:bg-black">
         {children}
         <ScrollRestoration />
         <Scripts />

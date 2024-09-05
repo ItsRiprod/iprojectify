@@ -1,7 +1,7 @@
 
 import { useLoaderData, redirect, Outlet, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { getSession, } from "../sessions.ts";
-import SideNavBar from "../components/sideNav.jsx"
+import SideNavBar from "../components/sideNav"
 
 export const loader = async ({ request }) => {
     const session = await getSession(
@@ -35,11 +35,9 @@ export default function Portal() {
   const { projects } = useLoaderData();
 
   return (
-    <div className="py-10">
+    <div className="flex lg:flex-row flex-col">
       <SideNavBar />
-      <div className="lg:pl-[19.5rem]">
-
-        
+      <div className="w-full">
         <Outlet context={ projects } />
       </div>
     </div>

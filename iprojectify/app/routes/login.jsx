@@ -96,12 +96,12 @@ export default function Login() {
         {actionData?.error && (
           <p style={{ color: "red" }}>{actionData.error}</p>
         )}
-        <button className="float-end bg-amber-500 transition-colors duration-300 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded"
+        <button className="float-end bg-cyan-500 transition-colors duration-300 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded"
           type="submit"
           name="_action"
           value="in"
         >Login</button>
-        <button className="hover:text-amber-400 transition-colors duration-300"
+        <button className="hover:text-cyan-400 transition-colors duration-300"
           
           type="submit"
           name="_action"
@@ -109,7 +109,7 @@ export default function Login() {
         >Logout</button>
       
       </Form>
-      <Link className="hover:text-amber-400 transition-colors duration-300" to="/signup">Create Account</Link>
+      <Link className="hover:text-cyan-400 transition-colors duration-300" to="/signup">Create Account</Link>
     </div>
   );
 }

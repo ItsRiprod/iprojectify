@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signOut, deleteUser } from "firebase/auth";
-import { initializeApp } from "firebase/app";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, GoogleAuthProvider, signOut, deleteUser, connectAuthEmulator } from "firebase/auth";
+import { initializeApp,  } from "firebase/app";
 import admin from "firebase-admin";
 import { initializeApp as initializeAdminApp, } from "firebase-admin/app";
-import { arrayUnion, arrayRemove, deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, serverTimestamp, doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { arrayUnion, arrayRemove, deleteDoc, updateDoc, query, where, getDocs, getDoc, getFirestore, connectFirestoreEmulator, serverTimestamp, doc, setDoc, collection, addDoc } from 'firebase/firestore';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -19,20 +19,26 @@ const firebaseConfig = {
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);
 
-if (!admin.apps.length) {
-  initializeAdminApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}.firebaseio.com`
-  });
-}
 let Firebase;
 if (!Firebase?.apps?.length) {
   Firebase = initializeApp(firebaseConfig);
 }
 
+if (!admin.apps.length) {
+  initializeAdminApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}.firebaseio.com`,
+  });
+}
+const auth = getAuth();
 const db = getFirestore();
-
+if (process.env.NODE_ENV === 'development') {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectFirestoreEmulator(db, 'localhost', 8080);
+  console.log("Emulator connected");
+}
 const adminAuth = admin.auth();
+
 const provider = new GoogleAuthProvider();
 
 
@@ -124,12 +130,15 @@ export async function createProject(userId, projectData) {
     throw error;
   }
 }
-export async function createTask(userId, projectId, taskData) {
+export async function createTask(projectId, taskData) {
   try {
     console.log("adding task");
+    const taskId = Date.now().toString();
+    const idTask = { id: taskId, ...taskData}
+
     const projectRef = doc(db, 'projects', projectId);
     await updateDoc(projectRef, {
-      tasks: arrayUnion(taskData) 
+      tasks: arrayUnion(idTask) 
     });
     //await db.collection('users/').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner", projectName: projectData.name})
     return { success: true };
@@ -138,17 +147,61 @@ export async function createTask(userId, projectId, taskData) {
     throw error;
   }
 }
-export async function deleteTask(userId, projectId, taskData) {
+export async function deleteTask(projectId, taskId) {
   try {
-    console.log("deleting task");
+    console.log("deleting task", taskId);
     const projectRef = doc(db, 'projects', projectId);
+
+    const projectDoc = await getDoc(projectRef);
+
+    if (!projectDoc.exists) {
+      throw new Error('Project not found');
+    }
+
+    const projectData = projectDoc.data();
+    const tasks = projectData.tasks || [];
+
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+
     await updateDoc(projectRef, {
-      tasks: arrayRemove({name: taskData}) 
+      tasks: updatedTasks,
     });
     //await db.collection('users/').doc(userId + "/projects/" + res.id).set({projectId: res.id, role: "owner", projectName: projectData.name})
     return { success: true };
   } catch (error) {
     console.error('Error removing task:', error);
+    throw error;
+  }
+}
+
+export async function updateTask(projectId, taskData) {
+  try {
+    console.log("updating task");
+    const projectRef = doc(db, 'projects', projectId);
+    const projectDoc = await getDoc(projectRef);
+
+    if (!projectDoc.exists) {
+      throw new Error('Project not found');
+    }
+
+    const projectData = projectDoc.data();
+    const tasks = projectData.tasks || [];
+    // Find and update the specific task
+    const updatedTasks = tasks.map(task => {
+      if (task.id === taskData.id) {
+        console.log('old task', task);
+        return { ...task, ...taskData }; // Merge existing task data with updated data
+      }
+      return task;
+    });
+    console.log('new task', updatedTasks);
+
+    // Update tasks array in Firestore
+    await updateDoc(projectRef, { tasks: updatedTasks });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating task:', error);
     throw error;
   }
 }
