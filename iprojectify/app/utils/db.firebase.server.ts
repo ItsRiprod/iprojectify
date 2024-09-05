@@ -64,7 +64,7 @@ if (!admin.apps.length) {
 }
 const auth = getAuth();
 const db = getFirestore();
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "fakeDevelopment") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
   connectFirestoreEmulator(db, "localhost", 8080);
   console.log("Emulator connected");

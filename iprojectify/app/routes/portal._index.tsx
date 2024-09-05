@@ -1,27 +1,32 @@
 /* eslint-disable react/prop-types */
 import { redirect, isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import { getSession, } from "../sessions.ts";
+import { getSession, } from "../sessions.js";
 import { useState } from "react";
-import { CreateProject } from "../components/Overlays/CreateProject";
+import { CreateProject } from "../components/Overlays/CreateProject.js";
+import { Project } from "../types/projects";
 
-export async function action({ request }) {
-    let formData = await request.formData();
+
+export async function action({ request }: { request: Request }) {
+    const formData = await request.formData();
     const { createProject, deleteAccount } = await import("../utils/db.firebase.server");
-    let { _action, ...values } = Object.fromEntries(formData);
+    const { _action, ...values } = Object.fromEntries(formData);
     
     if (_action === "_create") {
       const session = await getSession(
           request.headers.get("Cookie")
         );
       
-      const product = {
-          ownerId: session.get("userId"),
-          name: formData.get("name"),
-          description: formData.get("description"),
-          priority: formData.get("priority"),
+      const product: Project = {
+          ownerId: session.get("userId") as string,
+          name: formData.get("name") as string,
+          description: formData.get("description") as string,
+          priority: formData.get("priority") as string,
+          tasks: [],
+          viewer: [],
+          admin: []
       }
       try {
-        const { success, projId } = await createProject(session.get("userId"), product);
+        const { success, projId } = await createProject(session.get("userId") as string, product);
         if (!success) {
             return new Response("Unable to create product", { status: 400 });
         }
