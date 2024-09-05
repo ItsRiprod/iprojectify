@@ -6,7 +6,7 @@ import { CreateProject } from "../components/Overlays/CreateProject";
 
 export async function action({ request }) {
     let formData = await request.formData();
-    const { createProject, deleteAccount } = await import("../utils/db.firebase.server.js");
+    const { createProject, deleteAccount } = await import("../utils/db.firebase.server");
     let { _action, ...values } = Object.fromEntries(formData);
     
     if (_action === "_create") {

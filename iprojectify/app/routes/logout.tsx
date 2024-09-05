@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
-import { Form, Link, useActionData } from "@remix-run/react"
-import { json, redirect  } from "@remix-run/node";
-import { getSession, commitSession, destroySession } from "../sessions";
+import { redirect  } from "@remix-run/node";
+import { getSession, destroySession } from "../sessions";
 
-export async function loader({ request }) {
+export async function loader({ request }: { request: Request }) {
   const session = await getSession(
     request.headers.get("Cookie")
   );
@@ -23,7 +21,6 @@ export async function loader({ request }) {
   return redirect("/login");
   //return null;
 }
-
 
 
 export default function Logout() {

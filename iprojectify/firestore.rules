@@ -1,8 +1,26 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
     }
+    match /projects/{projectId} {
+    		allow create: if request.auth != null && request.auth.uid == request.resource.data.ownerId;
+
+    	  // Allow reading if the user is the owner, an admin, or a viewer
+  	    allow read: if request.auth != null && (
+	        request.auth.uid == resource.data.ownerId ||
+        	request.auth.uid in resource.data.admin ||
+        	request.auth.uid in resource.data.viewer
+      	);
+
+      	// Allow deleting or updating if the user is the owner or an admin
+      	allow delete, update: if request.auth != null && (
+        	request.auth.uid == resource.data.ownerId ||
+        	request.auth.uid in resource.data.admin
+      	);
+      }
+    
   }
 }

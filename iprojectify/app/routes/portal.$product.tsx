@@ -2,22 +2,19 @@
 import { useLoaderData, Form, isRouteErrorResponse, useRouteError, useActionData } from "@remix-run/react";
 import { getSession } from "../sessions";
 import { redirect, json, TypedResponse } from "@remix-run/node";
-import { getDBProject, deleteProject } from "../utils/db.firebase.server.js";
+import { getDBProject, deleteProject } from "../utils/db.firebase.server";
 import { useEffect, useState } from "react";
 import { CheckboxTask, DataTask, MegaTask, SimpleTask } from "../components/pages";
-import { Priority, Project, Task } from "../types/tasks";
+import { Priority, Task } from "../types/tasks";
+import { ActionResponse, Project } from "../types/projects";
 import CreateTaskForm from "../components/Overlays/CreateTask";
 import EditProject from "../components/Overlays/EditProject";
 
 export async function loader({ params, request }: { params: { product: string }, request: Request }): Promise<Project> {
 
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  const userId = session.get("userId");
   let project: Project;
   try {
-    project = await getDBProject(params.product, userId) as Project;
+    project = await getDBProject(params.product) as Project;
   } catch (error: unknown) {
     console.error('Error in loader:', error);
     if (error instanceof Error) {
@@ -35,12 +32,11 @@ export async function loader({ params, request }: { params: { product: string },
 
   return project;
 }
-type ActionResponse = {message: string; action: string;}
 
 export async function action({ params, request }: { params: { product: string }, request: Request }): Promise<ActionResponse | TypedResponse> {
   const formData = await request.formData();
   const { _action } = Object.fromEntries(formData);
-  const { updateProject, createTask, deleteTask, updateTask } = await import("../utils/db.firebase.server.js");
+  const { updateProject, createTask, deleteTask, updateTask } = await import("../utils/db.firebase.server");
   console.log("Action: ", _action);
   if (_action === "_delete") {
     try {

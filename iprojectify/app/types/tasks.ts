@@ -4,13 +4,7 @@ export enum Priority {
     "low"
   }
 
-export type Project = {
-    description: string
-    name: string
-    ownerId: string
-    priority: number | string
-    tasks: (SimpleTask | Task | MegaTask | DataTask)[]
-}
+
 export type Task = {
     description: string
     name: string

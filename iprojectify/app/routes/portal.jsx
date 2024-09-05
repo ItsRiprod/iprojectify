@@ -7,7 +7,7 @@ export const loader = async ({ request }) => {
     const session = await getSession(
       request.headers.get("Cookie")
     );
-    const { getDBProjects } = await import("../utils/db.firebase.server.js");
+    const { getDBProjects } = await import("../utils/db.firebase.server");
     if (!session.has("userId")) {
       // Redirect to the home page if they are already signed in.
       console.error("Not logged in!");
