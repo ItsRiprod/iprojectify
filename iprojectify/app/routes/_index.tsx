@@ -6,8 +6,8 @@ import { User } from "../types/users";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "iProjectify App" },
+    { name: "description", content: "The project management software that caters to you!" },
   ];
 };
 
@@ -24,6 +24,9 @@ export async function loader({ request }: { request: Request }) {
       const userId = session.get("userId") as string;
       user = await getDBUser(userId);
       return { user }
+    } else {
+      console.log("Not Logged In or Session Expired!")
+      return { user: null };
     }
   } catch (error) {
     console.error(error);
