@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /$
+Allow: /login
+Allow: /signup
+Disallow: /portal/
+Disallow: /admin/
+Disallow: /assets/
+Disallow: /build/
+Disallow: /_data/
+
+Sitemap: https://iprojectify.com/sitemap.xml

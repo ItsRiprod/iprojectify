@@ -12,19 +12,25 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: { request: Request }) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  let user = null;
-  if (session.has("userId")) {
-    // Redirect to the home page if they are already signed in.
-    console.log("Already Logged In!")
-    const userId = session.get("userId") as string;
-    user = await getDBUser(userId);
+  try {
+
+    const session = await getSession(
+      request.headers.get("Cookie")
+    );
+    let user = null;
+    if (session.has("userId")) {
+      // Redirect to the home page if they are already signed in.
+      console.log("Already Logged In!")
+      const userId = session.get("userId") as string;
+      user = await getDBUser(userId);
+      return { user }
+    }
+  } catch (error) {
+    console.error(error);
+    return { user: null };
   }
 
 
-  return { user }
 }
 export default function Index() {
   const { user } = useLoaderData<{ user: User | null}>();
