@@ -6,6 +6,16 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [remix(), tsconfigPaths()],
+  server: {
+    hmr: true,
+    watch: {
+      usePolling: true,
+    },
+    host: true,
+    strictPort: true,
+    port: 3000,
+  },
+  logLevel: 'info',
   css: {
     preprocessorOptions: {
       scss: {

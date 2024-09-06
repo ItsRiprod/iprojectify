@@ -34,14 +34,14 @@ export async function action({ request }: { request: Request }) {
 
     try {
       // Dynamic import for server-side code
-      const { signIn } = await import("../utils/db.firebase.server");
+      const { signIn, refreshIdToken } = await import("../utils/db.firebase.server");
 
       const { user, userId } = await signIn({email, password});
 
-      const idToken = await user.getIdToken();
+      const refreshedToken = await refreshIdToken(user)
       const session = await getSession();
 
-      session.set("idToken", idToken);
+      session.set("idToken", refreshedToken);
       session.set("userId", userId);
 
       return redirect("/", {
@@ -79,7 +79,7 @@ export default function Login() {
             <label className="flex gap-5 place-content-between" >
               <p>Email
                 </p> 
-              <input type="email" name="email" />
+              <input type="email" name="email" className="dark:text-black" />
             </label>
           </div>
 
@@ -88,7 +88,7 @@ export default function Login() {
               <p>
               Password 
               </p>
-              <input type="password" name="password" />
+              <input type="password" name="password" className="dark:text-black" />
             </label>
 
           </div>

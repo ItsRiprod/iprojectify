@@ -1,6 +1,8 @@
 import { useLoaderData } from "@remix-run/react";
 import type { MetaFunction } from "@remix-run/node";
 import { getSession } from "../sessions";
+import { getDBUser } from "../utils/db.firebase.server";
+import { User } from "../types/users";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,32 +11,31 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }) {
+export async function loader({ request }: { request: Request }) {
   const session = await getSession(
     request.headers.get("Cookie")
   );
-  let user = "";
+  let user = null;
   if (session.has("userId")) {
     // Redirect to the home page if they are already signed in.
     console.log("Already Logged In!")
-    user = session.get("userId") as string;
-    
+    const userId = session.get("userId") as string;
+    user = await getDBUser(userId);
   }
 
 
-  return user
+  return { user }
 }
-
 export default function Index() {
-  const user = useLoaderData() as string;
+  const { user } = useLoaderData<{ user: User | null}>();
 
 
   return (
     <div className="">
-      <p>{user ? `Logged In As: ${user}` : `Not logged in`}</p>
+      <p>{user ? `Logged In As: ${user.displayName || user.email || user.uid}` : `Not logged in`}</p>
       <div className="py-16 h-full w-full flex items-center justify-center flex-col">
         <h1 className="text-cyan-500 text-5xl">Welcome to iProjectify!</h1>
-        <div className="text-white italic text-lg flex flex-col items-center justify-center">
+        <div className="dark:text-white italic text-lg flex flex-col items-center justify-center">
           <p>The place where things get done</p>
         </div>
       </div>

@@ -2,15 +2,28 @@
 import { useLoaderData, Form, isRouteErrorResponse, useRouteError, useActionData } from "@remix-run/react";
 import { getSession } from "../sessions";
 import { redirect, json, TypedResponse } from "@remix-run/node";
-import { getDBProject, deleteProject } from "../utils/db.firebase.server";
+import { getDBProject, deleteProject, adminAuth } from "../utils/db.firebase.server";
 import { useEffect, useState } from "react";
 import { CheckboxTask, DataTask, MegaTask, SimpleTask } from "../components/pages";
 import { Priority, Task } from "../types/tasks";
 import { ActionResponse, Project } from "../types/projects";
 import CreateTaskForm from "../components/Overlays/CreateTask";
 import EditProject from "../components/Overlays/EditProject";
+import { IconAdd, IconBlocks, IconWrench, IconX } from "~/assets/Icons";
 
 export async function loader({ params, request }: { params: { product: string }, request: Request }): Promise<Project> {
+  const session = await getSession(request.headers.get('Cookie'));
+  const idToken = session.get('idToken') as string;
+
+  console.log('idToken:', idToken);
+
+  if (!idToken) {
+    const { refreshIdToken } = await import('../utils/db.firebase.server');
+    const user = await adminAuth.verifySessionCookie(idToken, true);
+    const refreshedToken = await refreshIdToken(user);
+    session.set('idToken', refreshedToken);
+    session.set('userId', user.uid);
+  }
 
   let project: Project;
   try {
@@ -126,7 +139,7 @@ export async function action({ params, request }: { params: { product: string },
   }
   if (_action === "_deleteTask") {
     
-    const id = formData.get("id");
+    const id = formData.get("id") as string;
     try {
       const { success } = await deleteTask(params.product, id);
       if (!success) {
@@ -182,16 +195,16 @@ export default function Dashboard() {
         <div className="flex p-2 w-full bg-cyan-300 dark:bg-slate-700">
           <h1 className="font-bold dark:text-cyan-500 text-5xl p-2">{project.name}</h1>
           <Form method="post" className="hidden sm:block content-center ml-auto">
-            <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded"
               onClick={handleEditProject}
 
-            >Edit</button>
+            ><IconWrench /></button>
             <button className="bg-red-500 transition-colors duration-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
 
               type="submit"
               name="_action"
               value="_delete"
-            >Delete</button>
+            ><IconX /></button>
           </Form>
 
         </div>
@@ -208,7 +221,7 @@ export default function Dashboard() {
           >Delete</button>
         </Form>
         <p className="px-3 text-xs font-mono italic">OwnerID: {project.ownerId}</p>
-        <p className="px-3 text-xs font-mono italic">Priority {Priority[project.priority]}</p>
+        <p className="px-3 text-xs font-mono italic">Priority {Priority[project.priority as number]}</p>
         <div className="p-5">
           <p>{project.description}</p>
         </div>
@@ -216,17 +229,17 @@ export default function Dashboard() {
       <div className="w-full pb-2 rounded-r-xl overflow-hidden  mb-2">
         <div className="flex p-2 w-full bg-cyan-300 dark:bg-slate-700">
           <h2 className="font-bold dark:text-cyan-500 text-xl p-2">Tasks:</h2>
-          <div className="hidden sm:block content-center ml-auto">
-            <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          <div className="items-center ml-auto flex">
+            <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
               onClick={handleAddTask}
-            >Add Task</button>
+            ><IconBlocks /></button>
             <Form method="post">
-              <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              <button className="mx-2 bg-slate-400 transition-colors duration-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
                 type="submit"
                 name="_action"
                 value="_createTask"
 
-              >Quick Add</button>
+              ><IconAdd IconSize={24} /></button>
             </Form>
           </div>
         </div>

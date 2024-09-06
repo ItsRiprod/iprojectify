@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,7 +8,7 @@ import {
   connectAuthEmulator,
 } from "firebase/auth";
 import { FirebaseApp, initializeApp } from "firebase/app";
-import admin from "firebase-admin";
+import admin, { UserRecord } from "firebase-admin";
 import { initializeApp as initializeAdminApp } from "firebase-admin/app";
 import {
   arrayUnion,
@@ -64,7 +63,7 @@ if (!admin.apps.length) {
 }
 const auth = getAuth();
 const db = getFirestore();
-if (process.env.NODE_ENV === "fakeDevelopment") {
+if (process.env.NODE_ENV === "development") {
   connectAuthEmulator(auth, "http://127.0.0.1:9099");
   connectFirestoreEmulator(db, "localhost", 8080);
   console.log("Emulator connected");
@@ -134,7 +133,8 @@ const signUp = async (User: Partial<User>) => {
 async function getSessionToken(idToken: string) {
   const decodedToken = await adminAuth.verifyIdToken(idToken);
   if (new Date().getTime() / 1000 - decodedToken.auth_time > 5 * 60) {
-    throw new Error("Recent sign in required");
+    const user = await adminAuth.getUser(decodedToken.uid);
+    idToken = await refreshIdToken(user);
   }
   const twoWeeks = 60 * 60 * 24 * 14 * 1000;
   return adminAuth.createSessionCookie(idToken, { expiresIn: twoWeeks });
@@ -144,6 +144,33 @@ async function signOutFirebase() {
   const auth = getAuth();
   await signOut(auth);
 }
+
+export async function refreshIdToken(user: UserRecord) {
+  try {
+    const newIdToken = await user.getIdToken(true);
+    return newIdToken;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    throw error;
+  }
+}
+
+export async function getDBUser(userId: string) {
+  try {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      throw new Error("User not found");
+    }
+
+    return userDoc.data() as User;
+  } catch (error) {
+    console.error("Error getting user:", error);
+    throw error;
+  }
+}
+
 
 /**
  * Not currently implemented
@@ -342,7 +369,7 @@ export async function getDBProject(projectId: string) {
   }
 }
 
-export async function updateProject(projectId: string, updatedData: Project) {
+export async function updateProject(projectId: string, updatedData: Partial<Project>) {
   try {
     const projectRef = doc(db, "projects", projectId);
     await updateDoc(projectRef, updatedData);
@@ -363,3 +390,4 @@ export async function deleteProject(projectId: string) {
     throw error;
   }
 }
+

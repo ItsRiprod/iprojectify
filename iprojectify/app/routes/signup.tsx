@@ -34,12 +34,13 @@ export async function action({ request }: { request: Request }) {
       
       const email = formData.get("email") as string
       const password = formData.get("password") as string
+      const displayName = formData.get("username") as string
 
       if (!email || !password) {
         return json({ error: "Email and password are required" }, { status: 400 });
       }
       
-      const { user, userId } = await signUp({email, password});
+      const { user, userId } = await signUp({email, password, displayName});
       const idToken = await user.getIdToken();
       const session = await getSession();
       session.set("idToken", idToken);
@@ -81,9 +82,17 @@ export default function SignUp() {
       <Form method="post">
         <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
             <label className="flex gap-5 place-content-between" >
+              <p>Username
+                </p> 
+              <input type="text" name="username" className="dark:text-black" />
+            </label>
+          </div>
+
+        <div className="container p-2 rounded-sm mb-2 bg-slate-200 dark:bg-slate-900">
+            <label className="flex gap-5 place-content-between" >
               <p>Email
                 </p> 
-              <input type="email" name="email" />
+              <input type="email" name="email" className="dark:text-black" />
             </label>
           </div>
 
@@ -92,7 +101,7 @@ export default function SignUp() {
               <p>
               Password 
               </p>
-              <input type="password" name="password" />
+              <input type="password" name="password" className="dark:text-black" />
             </label>
 
           </div>
